@@ -1,14 +1,14 @@
 package proxyplease
 
-import "fmt"
+import (
+	"log"
+	"os"
+)
+
+var l = log.New(os.Stdout, "", log.LstdFlags)
 
 var debugf = func(format string, a ...interface{}) {
-	if a == nil {
-		fmt.Println(format)
-	} else {
-		fmt.Println(fmt.Printf(format, a))
-	}
-
+	l.Printf("proxyplease."+format, a...)
 }
 
 // SetDebugf sets a debugf function for debug output
