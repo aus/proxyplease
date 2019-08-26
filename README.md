@@ -1,8 +1,8 @@
-# proxy-please
+# proxyplease
 
 Ask nicely, and you might get proxied.
 
-`proxy-please` is a Go package that attempts to establish a valid proxy connection based on available assumptions. It does  by using native and third-party libraries. `proxy-please` returns a DialContext which can be used in an http.Client Transport or other contexts. 
+`proxyplease` is a Go package that attempts to establish a valid proxy connection based on available assumptions. It does  by using native and third-party libraries. `proxyplease` returns a DialContext which can be used in an http.Client Transport or other contexts. 
 
 ## Examples
 
@@ -69,7 +69,7 @@ The `golang.org/x/net/proxy` will always do remote DNS for `socks5://`.
 | HTTP     | `http://`  | ✔️     | ✔️   | ✔️  | ✔️                 | ❌             | ❌      | ❌    |
 | HTTPS    | `https://` | ✔️     | ✔️   | ✔️  | ✔️                 | ❌             | ❌      | ❌    |
 
-If the proxy iniitally responds with a `407 Proxy Authentication Required`, the `Proxy-Authenticate` header(s) will be inspected for authentication schemes supported by the server. Each authentication scheme will be attempted in order of response until a `200 Connection Established`. If no credentials are supplied, `proxy-please` will attempt to transparently assume the current user's credentials from SSPI (SSPI is supported on Windows only and used for NTLM, Kerberos and Negotiate authentications schemes) or if they are hardcoded in environemt variables. Ex: `HTTP_PROXY=http://foo:bar@example.com:3128`. If `proxy-please` does not have enough information to attempt the authentication, the attempt will fail and another scheme will be attempted.
+If the proxy iniitally responds with a `407 Proxy Authentication Required`, the `Proxy-Authenticate` header(s) will be inspected for authentication schemes supported by the server. Each authentication scheme will be attempted in order of response until a `200 Connection Established`. If no credentials are supplied, `proxyplease` will attempt to transparently assume the current user's credentials from SSPI (SSPI is supported on Windows only and used for NTLM, Kerberos and Negotiate authentications schemes) or if they are hardcoded in environemt variables. Ex: `HTTP_PROXY=http://foo:bar@example.com:3128`. If `proxyplease` does not have enough information to attempt the authentication, the attempt will fail and another scheme will be attempted.
 
 ## Proxy Selection
 
@@ -80,7 +80,7 @@ u, _ := url.Parse("socks5://localhost:8888")
 dialContext := proxyplease.NewProxyDialContext(proxyplease.Proxy{URL: u})
 ```
 
-If a proxy URL is not provided, `proxy-please` will attempt to infer the URL from the system utilizing [go-get-proxied](https://github.com/rapid7/go-get-proxied). If a proxy cannot be determined, it will be assumed the connection is direct.
+If a proxy URL is not provided, `proxyplease` will attempt to infer the URL from the system utilizing [go-get-proxied](https://github.com/rapid7/go-get-proxied). If a proxy cannot be determined, it will be assumed the connection is direct.
 
 The proxy will be selected by the following priority:
 

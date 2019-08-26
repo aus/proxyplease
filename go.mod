@@ -1,4 +1,4 @@
-module github.com/aus/proxy-please
+module github.com/aus/proxyplease
 
 go 1.12
 
