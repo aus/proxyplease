@@ -14,14 +14,14 @@ import (
 // Proxy is a struct that can be passed to NewDialContext. All variables are optional. If a value is nil,
 // a default will be assigned or inferred from the local system settings.
 type Proxy struct {
-	URL              *url.URL
-	Username         string
-	Password         string
-	Domain           string
-	TargetURL        *url.URL
-	Headers          *http.Header
-	TLSConfig        *tls.Config
-	AuthSchemeFilter []string
+	URL              *url.URL     // URL to proxy
+	Username         string       // Username for authentication. This value is overridden if user is supplied in ProxyURL.
+	Password         string       // Password for authentication. This value is overridden if pass is supplied in Proxy.URL.
+	Domain           string       // Windows Domain. Used only for NTLM authentication.
+	TargetURL        *url.URL     // Target URL for proxy. Used to look up proxy from a PAC provided by the environment.
+	Headers          *http.Header // Add additional headers to the HTTP CONNECT request
+	TLSConfig        *tls.Config  // Provide your own TLSConfig
+	AuthSchemeFilter []string     // If nil, all authentication schemes will be attempted. Else, only the matching auth schemes will be used.
 }
 
 // DialContext is the DialContext function that should be wrapped with a
