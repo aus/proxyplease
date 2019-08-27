@@ -14,13 +14,14 @@ import (
 // Proxy is a struct that can be passed to NewDialContext. All variables are optional. If a value is nil,
 // a default will be assigned or inferred from the local system settings.
 type Proxy struct {
-	URL       *url.URL
-	Username  string
-	Password  string
-	Domain    string
-	TargetURL *url.URL
-	Headers   *http.Header
-	TLSConfig *tls.Config
+	URL              *url.URL
+	Username         string
+	Password         string
+	Domain           string
+	TargetURL        *url.URL
+	Headers          *http.Header
+	TLSConfig        *tls.Config
+	AuthSchemeFilter []string
 }
 
 // DialContext is the DialContext function that should be wrapped with a

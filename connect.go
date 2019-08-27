@@ -54,6 +54,10 @@ func dialAndNegotiateHTTP(p Proxy, addr string, baseDial func() (net.Conn, error
 			trimmed := strings.Split(s, " ")[0]
 			switch trimmed {
 			case "NTLM":
+				if !contains(p.AuthSchemeFilter, "NTLM") {
+					debugf("connect> Skipping NTLM due to AuthSchemeFilter")
+					continue
+				}
 				conn, err = dialNTLM(p, addr, baseDial)
 				if err != nil {
 					debugf("connect> NTLM authentication failed. Trying next available scheme.")
@@ -61,6 +65,10 @@ func dialAndNegotiateHTTP(p Proxy, addr string, baseDial func() (net.Conn, error
 				}
 				return conn, err
 			case "Basic":
+				if !contains(p.AuthSchemeFilter, "Basic") {
+					debugf("connect> Skipping Basic due to AuthSchemeFilter")
+					continue
+				}
 				conn, err = dialBasic(p, addr, baseDial)
 				if err != nil {
 					debugf("connect> Basic authentication failed. Trying next available scheme.")
@@ -69,6 +77,10 @@ func dialAndNegotiateHTTP(p Proxy, addr string, baseDial func() (net.Conn, error
 				return conn, err
 
 			case "Negotiate":
+				if !contains(p.AuthSchemeFilter, "Negotiate") {
+					debugf("connect> Skipping Negotiate due to AuthSchemeFilter")
+					continue
+				}
 				conn, err = dialNegotiate(p, addr, baseDial)
 				if err != nil {
 					debugf("connect> Negotiate authentication failed. Trying next available scheme.")
@@ -96,4 +108,18 @@ func dialAndNegotiateHTTP(p Proxy, addr string, baseDial func() (net.Conn, error
 
 	debugf("connect> Unhandled HTTP status, got: %d", resp.StatusCode)
 	return conn, errors.New(http.StatusText(resp.StatusCode))
+}
+
+func contains(s []string, e string) bool {
+	// if no filter supplied, assume scheme is wanted
+	if s == nil {
+		return true
+	}
+	// otherwise, test if filter matches
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
 }
