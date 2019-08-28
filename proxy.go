@@ -41,13 +41,15 @@ func NewDialContext(p Proxy) DialContext {
 	// if no provided Proxy.URL, infer from system settings
 	if p.URL == nil {
 		debugf("proxy> No proxy provided. Attempting to infer from system.")
-		p.URL = ggp.NewProvider("").GetProxy(p.TargetURL.Scheme, p.TargetURL.String()).URL()
+		systemProxy := ggp.NewProvider("").GetProxy(p.TargetURL.Scheme, p.TargetURL.String())
 		// if no Proxy.URL was provided and no URL could be determined from system,
 		// then assume connection is direct.
-		if p.URL == nil {
+		if systemProxy == nil {
 			debugf("proxy> No proxy could be determined. Assuming a direct connection.")
 			d := net.Dialer{}
 			return d.DialContext
+		} else {
+			p.URL = systemProxy.URL()
 		}
 		// WinHTTP sometimes does not provide protocol. If nil, assume HTTP
 		if p.URL.Scheme == "" {
