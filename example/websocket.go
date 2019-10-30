@@ -28,10 +28,10 @@ func main() {
 
 	// SOCKS with authentication example
 	//proxyURL, _ := url.Parse("socks5://localhost:8888")
-	//dialContext := proxyplease.NewProxyDialContext(proxyplease.Proxy{Url: proxyURL, Username: "foo", Password: "bar"})
+	//dialContext := proxyplease.NewDialContext(proxyplease.Proxy{Url: proxyURL, Username: "foo", Password: "bar"})
 
 	// Assume proxy from environment. Try to authenticate with these credentials
-	//dialContext := proxyplease.NewProxyDialContext(proxyplease.Proxy{Username: "foo", Password: "bar"})
+	//dialContext := proxyplease.NewDialContext(proxyplease.Proxy{Username: "foo", Password: "bar"})
 
 	// Specify with a domain to enable NTLM authentication
 	dialContext := proxyplease.NewDialContext(proxyplease.Proxy{Username: "foo", Password: "bar", Domain: "EXAMPLE"})
