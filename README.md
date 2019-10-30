@@ -9,7 +9,7 @@ Ask nicely, and you might get proxied.
 You can assume the complete proxy configuration and authentication from system.
 
 ```golang
-dialContext := proxyplease.NewProxyDialContext(proxyplease.Proxy{})
+dialContext := proxyplease.NewDialContext(proxyplease.Proxy{})
 ```
 
 Or maybe you want to specify a specific SOCKS5 proxy:
@@ -77,7 +77,7 @@ The proxy URL can be specified by passing a URL type. Example:
 
 ```golang
 u, _ := url.Parse("socks5://localhost:8888")
-dialContext := proxyplease.NewProxyDialContext(proxyplease.Proxy{URL: u})
+dialContext := proxyplease.NewDialContext(proxyplease.Proxy{URL: u})
 ```
 
 If a proxy URL is not provided, `proxyplease` will attempt to infer the URL from the system utilizing [go-get-proxied](https://github.com/rapid7/go-get-proxied). If a proxy cannot be determined, it will be assumed the connection is direct.
