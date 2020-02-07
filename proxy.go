@@ -39,7 +39,7 @@ func NewDialContext(p Proxy) DialContext {
 		p.TargetURL, _ = url.Parse("https://www.google.com")
 	}
 	// if no provided Proxy.URL, infer from system settings
-	if p.URL == nil {
+	if p.URL == nil || p.URL.String() == "" {
 		debugf("proxy> No proxy provided. Attempting to infer from system.")
 		systemProxy := ggp.NewProvider("").GetProxy(p.TargetURL.Scheme, p.TargetURL.String())
 		// if no Proxy.URL was provided and no URL could be determined from system,
