@@ -45,14 +45,14 @@ func dialNTLM(p Proxy, addr string, baseDial func() (net.Conn, error)) (net.Conn
 	}
 	defer secctx.Release()
 
-	h := p.Headers
+	h := p.Headers.Clone()
 	h.Set("Proxy-Authorization", fmt.Sprintf("NTLM %s", base64.StdEncoding.EncodeToString(negotiate)))
 	h.Set("Proxy-Connection", "Keep-Alive")
 	connect := &http.Request{
 		Method: "CONNECT",
 		URL:    &url.URL{Opaque: addr},
 		Host:   addr,
-		Header: *h,
+		Header: h,
 	}
 	if err := connect.Write(conn); err != nil {
 		debugf("ntlm> Could not write negotiate message to proxy: %s", err)
@@ -83,14 +83,14 @@ func dialNTLM(p Proxy, addr string, baseDial func() (net.Conn, error)) (net.Conn
 	}
 
 	resp.Body.Close()
-	h = p.Headers
+	h = p.Headers.Clone()
 	h.Set("Proxy-Authorization", fmt.Sprintf("NTLM %s", base64.StdEncoding.EncodeToString(authenticate)))
 	h.Set("Proxy-Connection", "Keep-Alive")
 	connect = &http.Request{
 		Method: "CONNECT",
 		URL:    &url.URL{Opaque: addr},
 		Host:   addr,
-		Header: *h,
+		Header: h,
 	}
 	if err := connect.Write(conn); err != nil {
 		debugf("ntlm> Could not write authenticate message to proxy: %s", err)
