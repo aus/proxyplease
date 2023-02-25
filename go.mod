@@ -8,6 +8,6 @@ require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/rapid7/go-get-proxied v0.0.0-20181210221417-16249a544090
 	github.com/stretchr/testify v1.6.1 // indirect
-	golang.org/x/net v0.0.0-20200707034311-ab3426394381
+	golang.org/x/net v0.7.0
 	h12.io/socks v1.0.1
 )
